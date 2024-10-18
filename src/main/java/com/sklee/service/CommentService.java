@@ -1,5 +1,6 @@
 package com.sklee.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.sklee.entity.Comment;
@@ -26,7 +27,15 @@ public class CommentService {
     }
 
     // 댓글 저장
-    public void saveComment(Comment comment) {
+    public void saveComment(int bno, String ccomment) {
+        String mid = (String) util.getSession().getAttribute("mid");
+        Comment comment = new Comment();
+        comment.setBno(bno);
+        comment.setMid(mid);
+        comment.setComment(ccomment);
+        comment.setCdate(LocalDateTime.now());
+//        comment.setMno();
+        
         commentMapper.insertComment(comment);
     }
 

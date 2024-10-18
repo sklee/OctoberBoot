@@ -3,30 +3,32 @@
 <mapper namespace="com.sklee.repository.CommentMapper">
 
     <resultMap id="CommentResultMap" type="com.sklee.entity.Comment">
-        <id property="cno" column="cno"/>
-        <result property="bno" column="bno"/>
-        <result property="ccomment" column="ccomment"/>
-        <result property="cdate" column="cdate"/>
-        <association property="member" javaType="com.sklee.entity.Member">
-            <id property="mno" column="mno"/>
-            <result property="mname" column="mname"/>
-            <result property="mid" column="mid"/>
-        </association>
+        <id property="cno" column="cno"/>                <!-- 댓글 번호 -->
+        <result property="bno" column="bno"/>            <!-- 게시글 번호 -->
+        <result property="comment" column="comment"/>   <!-- 댓글 내용 -->
+        <result property="cdate" column="cdate"/>        <!-- 댓글 작성 날짜 -->
+        <result property="mname" column="mname"/>        <!-- 작성자명 -->
+        <result property="mid" column="mid"/>            <!-- 작성자 ID -->
     </resultMap>
 
     <!-- 댓글 목록 조회 -->
     <select id="findCommentsByBoardId" parameterType="int" resultType="com.sklee.entity.Comment">
-        SELECT c.cno, c.bno, c.ccomment, c.cdate, m.mname, m.mid
+        SELECT c.cno, c.bno, c.comment, c.cdate, m.mname, m.mid
         FROM comment c
         JOIN member m ON m.mno = c.mno
-        WHERE c.bno = #{bno} AND c.cdel = 'N'
+        WHERE c.bno = #{bno}
         ORDER BY c.cdate DESC
     </select>
 
     <!-- 댓글 저장 -->
     <insert id="insertComment" parameterType="com.sklee.entity.Comment">
-        INSERT INTO comment (bno, mno, ccomment, cip, clike, cdate)
-        VALUES (#{bno}, #{mno}, #{ccomment}, #{cip}, #{clike}, #{cdate})
+        INSERT INTO comment (bno, mno, comment, cdate)
+        VALUES (
+            #{bno},
+            (SELECT mno FROM member where mid=#{mid} LIMIT 1),
+            #{comment},
+            #{cdate}
+        )
     </insert>
 
     <!-- 댓글 삭제 -->

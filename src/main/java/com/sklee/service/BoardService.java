@@ -66,20 +66,20 @@ public class BoardService {
     }
 
     // 댓글 작성
-    public int comment(int bno, String ccomment) {
-        if (util.getSession().getAttribute("mid") != null) {
-            Optional<Member> member = memberMapper.findByMid(String.valueOf(util.getSession().getAttribute("mid")));
-            Optional<Board> board = boardMapper.findById(bno);
-            if(board.isPresent()) {
-                Comment comment = new Comment();
-                comment.setCcomment(ccomment);
-                comment.setMember(member.get());
-                comment.setBoard(board.get());
-                return 1;
-            }
-        }
-        return 0;
-    }
+//    public int comment(int bno, String ccomment) {
+//        if (util.getSession().getAttribute("mid") != null) {
+//            Optional<Member> member = memberMapper.findByMid(String.valueOf(util.getSession().getAttribute("mid")));
+//            Optional<Board> board = boardMapper.findById(bno);
+//            if(board.isPresent()) {
+//                Comment comment = new Comment();
+//                comment.setComment(ccomment);
+//                comment.setMember(member.get());
+//                comment.setBoard(board.get());
+//                return 1;
+//            }
+//        }
+//        return 0;
+//    }
 
 }
 

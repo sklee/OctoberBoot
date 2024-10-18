@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class Board {
@@ -17,5 +18,6 @@ public class Board {
     private String bfile; // 첨부 파일
     private int commentCount; // 댓글 개수
     private Member member; // 작성자 정보 (Member 객체로 매핑)
-    
+
+    private List<Comment> comments;
 }

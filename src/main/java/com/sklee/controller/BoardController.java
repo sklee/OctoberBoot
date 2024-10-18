@@ -4,6 +4,8 @@ package com.sklee.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.sklee.entity.Comment;
+import com.sklee.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,9 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private CommentService commentService;
 
     // 메인 페이지 및 게시판 페이지 이동
     @GetMapping({ "/", "/index" })
@@ -49,7 +54,17 @@ public class BoardController {
     @GetMapping("/detail")
     public String detail(@RequestParam("bno") int bno, Model model) {
         Optional<Board> board = boardService.detail(bno);
-        model.addAttribute("detail", board.orElse(null));
+
+        //댓글 목록
+        List<Comment> comments = commentService.findCommentsByBoardId(bno);
+
+        if(board.isPresent()) {
+            Board detail = board.get();
+            detail.setComments(comments);
+            model.addAttribute("detail", detail);
+        } else {
+            model.addAttribute("detail", null);
+        }
         return "detail";
     }
 
@@ -76,10 +91,9 @@ public class BoardController {
 
     // 댓글 작성
     @PostMapping("/comment")
-    public String comment(@RequestParam("bno") int bno, @RequestParam("comment") String comment, RedirectAttributes redirect) {
-        boardService.comment(bno, comment);
-        redirect.addAttribute("bno", bno);
-        return "redirect:/detail";
+    public String comment(@RequestParam("bno") int bno, @RequestParam("comment") String comment, Model model) {
+        commentService.saveComment(bno, comment);
+        return "redirect:/detail?bno="+bno;
     }
 //
 //    // 댓글 삭제

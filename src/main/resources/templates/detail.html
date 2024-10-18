@@ -41,23 +41,27 @@
         </div>
 
         <!-- 댓글리스트 -->
-        <div class="shadow p-2 m-2 rounded" th:if="${#lists.size(detail.commentCount) gt 0}">
-            <div class="row p-2 m-0" th:each="crow : ${detail.commentCount }">
-                <div class="row p-2 m-0 commenthead">
+            <div th:each="comment : ${detail.comments}">
+                <div class="row p-2 m-0 border-bottom">
                     <div class="col">
-                <span th:if="${session.mid eq crow.member.mid}">
-                    <button class="btn btn-secondary btn-sm" th:onclick="|location.href='@{/cupdate(bno=${detail.bno}, cno=${crow.cno})}'|">수정</button>
-                    <button class="btn btn-danger btn-sm" th:onclick="|location.href='@{/cdelete(bno=${detail.bno}, cno=${crow.cno})}'|">삭제</button>
-                </span>
-                        [[${crow.member.mname}]]
+                        <!-- mname이 comment 객체에 직접 포함된 경우 -->
+                        <strong th:text="${comment.mname}"></strong>
                     </div>
-                    <div class="col">[[${#temporals.format(crow.cdate, 'yyyy년 MM월 dd일 HH시 mm분 ss초에 작성되었습니다')}]]</div>
+                    <div class="col text-end">
+                        <small th:text="${#temporals.format(comment.cdate, 'yyyy-MM-dd HH:mm')}"></small>
+                    </div>
                 </div>
-                <div class="row  p-2 m-3 mt-0 commentcontent">
-                    <pre class="col" th:text="${crow.ccomment}"></pre>
+                <div class="row p-2 m-0">
+                    <p th:text="${comment.comment}"></p>
+                </div>
+
+                <div th:if="${session.mid eq comment.mid}" class="text-end">
+                    <button class="btn btn-secondary btn-sm"
+                            th:onclick="|location.href='@{/comment/update(cno=${comment.cno})}'|">수정</button>
+                    <button class="btn btn-danger btn-sm"
+                            th:onclick="|location.href='@{/comment/delete(cno=${comment.cno})}'|">삭제</button>
                 </div>
             </div>
-        </div>
 
         </section>
         
