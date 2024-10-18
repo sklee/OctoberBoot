@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sklee.repository.MemberMapper">
+
+    <!-- 회원 정보 조회 by mid -->
+    <select id="findByMid" resultType="com.sklee.entity.Member">
+        SELECT * FROM member WHERE mid = #{mid}
+    </select>
+
+    <!-- 회원 정보 조회 by mid와 mpw -->
+    <select id="findByMidAndMpw" resultType="com.sklee.entity.Member">
+        SELECT * FROM member WHERE mid = #{mid} AND mpw = #{mpw}
+    </select>
+
+    <!-- 회원 중복 여부 확인 -->
+    <select id="existsByMid" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM member WHERE mid = #{mid}
+    </select>
+
+    <!-- 회원 등록 -->
+    <insert id="insertMember" parameterType="com.sklee.entity.Member">
+        INSERT INTO member (mid, mname, mpw)
+        VALUES (#{mid}, #{mname}, #{mpw})
+<!--        VALUES (#{mid}, #{mname}, #{mpw}, #{role})-->
+    </insert>
+</mapper>

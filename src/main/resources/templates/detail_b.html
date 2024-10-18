@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>                                         <!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{menu.html :: head}"></th:block>
+    <link href="css/detail.css" rel="stylesheet" />
+</head>
+<body>
+<!-- Navigation-->
+<th:block th:insert="~{menu.html :: menu}"></th:block>
+
+<!-- App badge section-->
+<section class="container px-1">
+    <div class="mt-4 p-2 shadow bg-white rounded">
+        <div class="py-2 fs-2 border-bo	ttom border-primary">
+            <th:block th:if="${session.mid eq detail.member.mid }">
+                <button class="btn btn-secondary" th:onclick="|location.href='@{/update(bno=${detail.bno})}'|">수정</button>
+                <button class="btn btn-danger" th:onclick="|location.href='@{/delete(bno=${detail.bno})}'|">삭제</button>
+            </th:block>
+            [[${detail.btitle}]]
+        </div>
+        <div class="p-2 border-bottom border-primary">
+            [[${detail.bdate}]]
+        </div>
+        <pre class="code" th:utext="${detail.bcontent}" style="min-height: 300px;"></pre>
+    </div>
+    <!-- 댓글쓰기창 -->
+    <div class="shadow p-2 m-2 rounded" th:if="${session.mid ne null}" >
+        <div class="card-footer py-1">
+            <form action="/comment" method="post">
+                <div class="d-flex flex-start w-100">
+                    <div class="form-outline w-100">
+                        <textarea class="form-control" name="comment" rows="4" required="required"></textarea>
+                    </div>
+                    <input type="hidden" name="bno" th:value="${detail.bno }">
+                    <button type="submit" class="btn btn-primary btn-sm">댓글달기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 댓글리스트 -->
+    <div class="shadow p-2 m-2 rounded" th:if="${#lists.size(detail.commentCount) gt 0}">
+        <div class="row p-2 m-0" th:each="crow : ${detail.commentCount }">
+            <div class="row p-2 m-0 commenthead">
+                <div class="col">
+					<span th:if="${session.mid eq crow.member.mid}">
+						<button class="btn btn-secondary btn-sm" th:onclick="|location.href='@{/cupdate(bno=${detail.bno}, cno=${crow.cno})}'|">수정</button>
+               			<button class="btn btn-danger btn-sm" th:onclick="|location.href='@{/cdelete(bno=${detail.bno}, cno=${crow.cno})}'|">삭제</button>
+					</span>
+                    [[${crow.member.mname}]]
+                </div>
+                <div class="col">[[${#temporals.format(crow.cdate, 'yyyy년 MM월 dd일 HH시 mm분 ss초에 작성되었습니다')}]]</div>
+            </div>
+            <div class="row  p-2 m-3 mt-0 commentcontent">
+                <pre class="col" th:text="${crow.ccomment}"></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer-->
+<th:block th:insert="~{menu.html :: footer}"></th:block>
+</body>
+</html>

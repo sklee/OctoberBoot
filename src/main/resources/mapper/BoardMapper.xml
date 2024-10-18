@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sklee.repository.BoardMapper">
+
+    <!-- 결과 매핑 설정 -->
+    <resultMap id="BoardResultMap" type="com.sklee.entity.Board">
+        <id property="bno" column="bno"/>
+        <result property="btitle" column="btitle"/>
+        <result property="bcontent" column="bcontent"/>
+        <result property="bdate" column="bdate"/>
+        <result property="bip" column="bip"/>
+        <result property="blike" column="blike"/>
+        <result property="bcount" column="bcount"/>
+        <result property="bfile" column="bfile"/>
+        <result property="commentCount" column="commentCount"/>
+        <association property="member" javaType="com.sklee.entity.Member">
+            <id property="mno" column="mno" />
+            <result property="mname" column="mname"/>
+            <result property="mid" column="mid"/>
+        </association>
+    </resultMap>
+
+
+    <!-- 게시글 목록 조회 (댓글 포함) -->
+    <select id="findAll" resultMap="BoardResultMap">
+        SELECT * FROM boardView
+    </select>
+
+    <!-- 게시글 상세 조회 (댓글 포함) -->
+    <select id="findById" parameterType="int" resultMap="BoardResultMap">
+        SELECT * FROM boardView WHERE bno = #{bno}
+    </select>
+
+    <!-- 게시글 등록 -->
+    <insert id="insertBoard" parameterType="com.sklee.entity.Board">
+        INSERT INTO board (btitle, bcontent, mno, bip)
+        VALUES (#{btitle}, #{bcontent}, #{member.mno}, #{bip})
+    </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updateBoard">
+        UPDATE board SET btitle = #{btitle}, bcontent = #{bcontent} WHERE bno = #{bno}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteBoard">
+        DELETE FROM board WHERE bno = #{bno} AND mno = (SELECT mno FROM member WHERE mid = #{mid})
+    </delete>
+
+    <!-- 댓글 등록 -->
+    <insert id="insertComment">
+        INSERT INTO comment (bno, comment) VALUES (#{bno}, #{comment})
+    </insert>
+
+    <!-- 댓글 삭제 -->
+    <delete id="deleteComment">
+        DELETE FROM comment WHERE cno = #{cno}
+    </delete>
+
+</mapper>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>전체 글 관리</title>
+<!-- Includes all JS & CSS for the JavaScript Data Grid -->
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+<link href="../css/admin.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="container">
+		<th:block th:insert="~{admin/menu.html :: menu}"></th:block>
+		<div class="content">
+			<div id="myGrid" class="ag-theme-quartz" style="height: 500px"></div>
+			본문내용
+			[[${list }]]
+		</div>
+	</div>
+<script type="text/javascript">
+let gridApi;
+
+class CustomButtonComponent {
+  eGui;
+  eButton;
+  eventListener;
+
+  init() {
+    this.eGui = document.createElement("div");
+    let eButton = document.createElement("button");
+    eButton.className = "btn-simple";
+    eButton.textContent = "Push Me!";
+    this.eventListener = () => alert("clicked");
+    eButton.addEventListener("click", this.eventListener);
+    this.eGui.appendChild(eButton);
+  }
+
+  getGui() {
+    return this.eGui;
+  }
+
+  refresh() {
+    return true;
+  }
+
+  destroy() {
+    if (this.eButton) {
+      this.eButton.removeEventListener("click", this.eventListener);
+    }
+  }
+}
+
+const gridOptions = {
+  // Data to be displayed
+  //{ make: "Tesla", model: "Model Y", price: 64950, electric: true },
+  rowData: [
+    {bno:1, bdate:'2024-09-10 16:10:42.0', btitle:'1111111111', bcontent:'2222222222', mno:2}, 
+    {bno:2, bdate:'2024-09-10 16:10:43.0', btitle:'글씁니다', bcontent:'글씁니다', mno:2}, 
+    {bno:3, bdate:'2024-09-10 16:10:25.0', btitle:'되나요?', bcontent:'되나요?', mno:2}, 
+    {bno:5, bdate:'2024-09-10 16:17:55.0', btitle:'q변경', bcontent:'q변경', mno:1}, 
+    {bno:6, bdate:'2024-09-10 16:20:09.0', btitle:'111111111111', bcontent:'12222222', mno:1}, 
+    {bno:7, bdate:'2024-09-10 16:56:39.0', btitle:'12312312', bcontent:'3123123123', mno:1}, 
+    {bno:8, bdate:'2024-09-10 16:57:12.0', btitle:'123123', bcontent:'13132123', mno:1}, 
+    {bno:9, bdate:'2024-09-10 17:00:01.0', btitle:'34234234234', bcontent:'1', mno:1}, 
+    {bno:10, bdate:'2024-09-10 17:00:05.0', btitle:'ggsdgs', bcontent:'gesrgserg', mno:1},
+  ],
+  // Columns to be displayed (Should match rowData properties)
+  columnDefs: [
+    {field: "번호", valueGetter: (p) => p.data.bno},
+    {field: "제목", valueFormatter: (p) => p.data.btitle, flex: 2,},
+    {field: "날짜", valueFormatter: (p) => p.data.bdate, flex: 2,},
+    {field: "글쓴이", valueFormatter: (p) => p.data.mno, flex: 2,},
+    {field: "삭제/보이기", valueFormatter: (p) => p.data.bno, flex: 2,},
+  ],
+};
+
+const gridDiv = document.querySelector("#myGrid");
+gridApi = agGrid.createGrid(gridDiv, gridOptions);
+</script>
+</body>
+</html>

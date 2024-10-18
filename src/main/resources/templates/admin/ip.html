@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="~{menu.html :: head}"></th:block>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+<script th:inline="javascript">
+	google.charts.load('current', {'packages':['bar']});
+	google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['아이피', '접속건수'],
+          [# th:each="t : ${list}"]
+          	[ [[${t.lip}]], [[${t.count}]] ],
+          [/]
+        ]);
+	var options = {chart: {title: '아이피별 접속 현황'}};
+	var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+	chart.draw(data, google.charts.Bar.convertOptions(options));
+	}
+</script>
+<link href="../css/admin.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="container">
+		<th:block th:insert="~{admin/menu.html :: menu}"></th:block>
+		<div class="content">
+			<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+			<hr>
+			[[${list}]]
+		</div>
+
+	</div>
+</body>
+</html>

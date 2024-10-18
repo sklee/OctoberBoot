@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="~{menu.html :: head}"></th:block>
+</head>
+<body>
+	<!-- Navigation-->
+	<th:block th:insert="~{menu.html :: menu}"></th:block>
+
+	<!-- App badge section-->
+	<section class="">
+		<div class="container px-5">
+			<div class="row">
+				<div class="col-sm-6" th:each="row : ${list}">
+					<div class="card mb-4 card-deck">
+						<img class="card-img-top" th:src="|/upload/${row.gfile}|">
+						<div class="card-body">
+							<span class="card-title" th:text="${row.gtitle}"></span>
+							<span class="card-title" th:text="${row.member.mname}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button onclick="location.href='/galleryWrite'">갤러리 글쓰기</button>
+		</div>
+	</section>
+
+
+	<!-- Footer-->
+	<th:block th:insert="~{menu.html :: footer}"></th:block>
+</body>
+</html>

@@ -1,0 +1,105 @@
+@charset "UTF-8";
+@media print{
+body{
+	background-color: #fff;
+}
+
+.navbar, footer, .xi-print, .p-2.m-2.text-center {
+	display: none;
+	box-shadow: none;
+}
+
+#printArea, .container{
+	/* display: inline !important; */
+	margin: 0 auto;
+	padding: 0;
+	width: 100%;
+	height: auto;
+	box-shadow: none;
+	background-color: white !important;
+}
+.title{
+	background-color: gray;
+}
+
+}
+@page {
+	size: 21cm 29.7cm;
+	margin: 15px;
+	background-color: white;
+}
+
+.members, .likes {
+	width: 100%;
+	height: auto;
+	line-height: 20px;
+	padding: 5px;
+}
+
+.title {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	padding-left: 5px;
+	font-size: large;
+	background-color: #f8f9fc;
+	border-radius: 10px;
+}
+
+.code {
+	width: 100%;
+	min-height: 55vh;
+	height: auto;
+	display: block;
+	padding: 10px;
+	overflow: auto;
+}
+
+img {
+	width: 100% !important;
+}
+
+.xi-trash, .xi-wrench {
+	color: gray;
+}
+
+.xi-wrench:hover {
+	color: yellow;
+}
+
+.xi-trash:hover {
+	color: red;
+}
+
+.commenthead {
+	background-color: #c0c0c0;
+	border-top: 1px solid #0dcaf0;
+}
+
+.commentcontent {
+	min-height: 30px;
+	background-color: #dee2e6;
+}
+
+#commentt {
+	width: calc(100% - 60px);
+	height: 100px;
+	vertical-align: middle;
+	border: 1px;
+}
+
+#commentb {
+	width: 50px;
+	height: 100px;
+	margin: 0px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+.btn-sm {
+	margin-top: -5px;
+}
+
+.col-6 i {
+	vertical-align: baseline;
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>admin/board.html</title>
+<link href="../css/admin.css" rel="stylesheet" />
+<style type="text/css">
+img {
+	width: 200px;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<th:block th:insert="~{admin/menu.html :: menu}"></th:block>
+		<div class="content">
+			<div class="col-sm-6" th:each="row : ${list}">
+				<div class="card mb-4 card-deck">
+					<img class="card-img-top" th:src="|/upload/${row}|">
+				</div>
+				<div class="card-body">1</div>
+			</div>
+			<hr>
+			[[${list }]]
+		</div>
+	</div>
+</body>
+</html>
